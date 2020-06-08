@@ -13,18 +13,20 @@
       list-style: none;
     }
     #box{
-      width: 1200px;
+      width: 950px;
       height: 497px;
       margin: 50px auto;
       position: relative;
       overflow:hidden;
     }
-    .slide img{
+    .img li{
       position: absolute;
-      width: 1200px;
-      height: 495px;
       top: 0;
       left: 0;
+    }
+    .img li a  img{
+      width: 950px;
+      height: 495px;
     }
     .nav{
       position: absolute;
@@ -78,21 +80,21 @@
       background-color:rgba(255,255,255,0.9);
     }
   </style>
-  <script src="js/jq.js"></script>
 </head>
 
 <body>
   <div id="box">
-    <div id="slider">
-      <div class="slide"><img src="images/1.jpg" alt=""></div>
-      <div class="slide"><img src="images/2.jpg" alt=""></div>
-      <div class="slide"><img src="images/3.jpg" alt=""></div>
-      <div class="slide"><img src="images/4.jpg" alt=""></div>
-      <div class="slide"><img src="images/5.jpg" alt=""></div>
-      <div class="slide"><img src="images/6.jpg" alt=""></div>
-      <div class="slide"><img src="images/7.jpg" alt=""></div>
-      <div class="slide"><img src="images/8.jpg" alt=""></div>
-    </div>
+      <ul class="img">       
+        <li><a><img src="images/1.jpg"></a></li>        
+        <li><a><img src="images/2.jpg"></a></li>       
+        <li><a><img src="images/3.jpg"></a></li>      
+        <li><a><img src="images/4.jpg"></a></li>  
+        <li><a><img src="images/5.jpg"></a></li>        
+        <li><a><img src="images/6.jpg"></a></li>       
+        <li><a><img src="images/7.jpg"></a></li>      
+        <li><a><img src="images/8.jpg"></a></li>
+      </ul>
+
     
     <span id="left" class="btn"> < </span>
     <span id="right" class="btn"> > </span>
@@ -108,7 +110,46 @@
       <li> </li>
     </ul>
 
-
     </div>
+    <script src="js/jquery.js"></script>
+    <script>
+      var index=0;     
+	    $(".nav li").mousemove(function () {     
+	      $(this).addClass("active").siblings().removeClass("active");      
+		    index=$(this).index();          
+		    $(".img li").eq(index).stop().fadeIn(2000).siblings().stop().fadeOut(2000);    
+	    });
+      /**向右**/
+	    var time=setInterval(move,2000);
+	    function move() {
+        index++;
+        if (index==8){
+            index=0;
+        }
+        $(".nav li").eq(index).addClass("active").siblings().removeClass("active");
+        $(".img li").eq(index).stop().fadeIn(2000).siblings().stop().fadeOut(2000);
+    };
+    $("#box").hover(function () {
+        clearInterval(time);
+    },function () {
+        time=setInterval(move,2000);
+    });
+    $("#right").click(function () {
+       move();
+    });
+    /**向左**/
+    function toLeft() {
+        index--;
+        if (index==-1){
+            index=7
+        }
+        $(".nav li").eq(index).addClass("active").siblings().removeClass("active"); 
+        $(".img li").eq(index).stop().fadeIn(2000).siblings().stop().fadeOut(2000);
+    }
+    $("#left").click(function () {
+        toLeft();
+    });
+
+    </script>
 </body>
 </html>
